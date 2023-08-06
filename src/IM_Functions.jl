@@ -254,3 +254,9 @@ function get_novelty_measure(piece, Om, N_cws; nov_w=1)
     end
     return ν_ξ / s_m #dividing by the size of the piece
 end
+get_entropy(probs) = mapreduce(x -> -x * log2(x), +, probs)
+function get_key_ent(key_list)
+    dists = map(x-> exp(-12 * x), Float64.(key_list[:,2]))
+    key_p = dists ./ sum(dists)
+    return get_entropy(key_p)
+end
